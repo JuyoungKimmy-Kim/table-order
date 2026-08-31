@@ -41,5 +41,5 @@ async def health() -> dict[str, str]:
 # app.include_router(admin_router, prefix="/api")
 # from app.tables.router import router as tables_router
 # app.include_router(tables_router, prefix="/api")
-# from app.menu.router import router as menu_router
-# app.include_router(menu_router, prefix="/api")
+from app.menu.router import router as menu_router  # Unit 5 (윤태경)
+app.include_router(menu_router, prefix="/api")
