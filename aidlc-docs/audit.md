@@ -122,3 +122,43 @@ AI-DLC 워크플로우를 시작해봅시다."
 **Context**: CONSTRUCTION - Unit 1 보조 시각화 산출물(워크플로우 스테이지 아님)
 
 ---
+
+## Unit 3 착수 — Functional Design Part 1 (Planning) (임동규)
+**Timestamp**: 2026-08-31T00:00:00Z
+**User Input**: "@aidlc-docs/aidlc-state.md 를 보고 임동규 unit 개발 시작할 건데, 어떻게 시작할 수 있는지 살펴봐줘." / (착수 방식 질문 답변) "Functional Design부터 정식 시작"
+**AI Response**: "임동규=Unit 3(Admin Auth & Real-time Monitoring, 요구사항 3.2.1/3.2.2) 확인. Unit 1 계약·코어 확정으로 병렬 착수 가능 상태 검증(integration-contract §2/§3.2/§4, app.core.security/sse/models 사용 가능). CONSTRUCTION Per-Unit Loop를 Unit 3에 대해 시작. Functional Design Step 1(컨텍스트 분석) 완료, Step 2~4 수행: construction/plans/unit3-admin-functional-design-plan.md 생성 — 실행단계 P1~P6 체크박스 + 명확화 질문 Q1~Q9([Answer] 태그, A~E 옵션): 로그인 시도제한 정책/저장위치, JWT claims, 상태전이 규칙, 대시보드↔SSE 정합/재연결, recent_orders 개수·신규강조, 테이블 필터 위치, 프론트 기술구성(Vue3+Vite+Pinia), SSE 인증헤더 처리. Step 5(답변 수집·모호성 해소) 위해 사용자 응답 대기."
+**Context**: CONSTRUCTION - Functional Design Part 1 (Planning), Unit 3
+
+---
+
+## Unit 3 Functional Design - 답변 확정 & 산출물 생성 (임동규)
+**Timestamp**: 2026-08-31T00:00:00Z
+**User Input**: "@aidlc-docs/aidlc-state.md 를 보고 unit3 임동규 다음 단계 진행해줘." / (Q8 후속 질문 답변) "Vue3+Vite+Pinia+Router (기본)"
+**AI Response**: "Unit 3 Functional Design Plan의 [Answer] 검토 — Q1~Q7·Q9는 A 기입, Q8만 공백. Unit 3이 frontend/admin/ 앱 뼈대를 세팅하고 Unit 4/5가 공유하므로 Q8을 사용자에게 확인 → A(Vue3+Vite+Pinia+Router) 확정. 이로써 Q1~Q9 전부 A, 모순/모호 없음(Step 5). 계획서 Q8 [Answer] 갱신. Part 2 Generation 실행: 산출물 4종 생성 — construction/unit3-admin/functional-design/{domain-entities(재사용 엔티티+LoginAttemptTracker/AdminPrincipal/DashboardSnapshot 뷰모델+Pinia 스토어), business-rules(BR-A1~A8: 로그인/시도제한/JWT/상태변경/대시보드/SSE/헤더/필터), business-logic-model(admin_auth 모듈 구성·인증 플로우·시도제한 알고리즘·대시보드 조립·SSE 재연결·PBT 판단 §6), frontend-components(앱 뼈대·라우팅 가드·6개 컴포넌트·스토어·계약 대조표 P5)}.md. 계약(§3.2 6개 API/§2 SSE/§4 DTO) 준수 확인 — 계약 변경 필요 없음. Unit 1 코어 실제 심볼(verify_password/create_token/decode_token/sse.publish·subscribe/domain.calc_table_total/models.OrderSummary·OrderDetail) 기준으로 작성. PBT: evaluate_login_attempt/validate_order_status/select_recent_orders(PBT-03/07)·build_admin_claims(PBT-02) 대상, PBT-04/05/06 N/A. plan 체크박스 P1~P6 및 완료조건 갱신, aidlc-state.md 갱신. Functional Design 완료 메시지(2-option: Request Changes / Continue to Next Stage) 제시 후 승인 대기."
+**Context**: CONSTRUCTION - Functional Design (Generation), Unit 3
+
+---
+
+## Unit 3 Functional Design 승인 & Code Generation Part 1 진입 (임동규)
+**Timestamp**: 2026-08-31T00:00:00Z
+**User Input**: "Code Generation Part로 진행해줘." / "이어서 진행해줘."
+**AI Response**: "Unit 3 Functional Design 승인(Continue to Next Stage)으로 처리. Unit 1 선례에 따라 NFR Requirements/Design 단계 생략(기술 스택 확정: FastAPI + sqlite3 + Vue3/Vite/Pinia). Code Generation Part 1(Planning) 진입. 실제 코어 심볼 재확인: validation.validate_order_status(이미 Unit1 제공 — 재사용), errors.Unauthorized/TooManyAttempts/OrderNotFound, models.OrderSummary/OrderDetail/make_item_preview, domain.calc_table_total, security.verify_password/create_token/decode_token, sse.publish/subscribe, db.connect/transaction. frontend/admin/은 빈 상태(.gitkeep) → Unit 3이 Vue 앱 뼈대 스캐폴딩. Python 3.9 런타임. construction/plans/unit3-admin-code-generation-plan.md 생성 — 범위: backend admin_auth 모듈(router/service/deps/attempts/logic/schemas) + 테스트(PBT+API) + frontend/admin Vue 앱 뼈대(router/guard/stores/api/sse + LoginView/DashboardView + 컴포넌트). 단계 번호화, PBT 강제규칙 매핑, 계약 추적성. 사용자 승인 시 Part 2 Generation 실행."
+**Context**: CONSTRUCTION - Functional Design 승인 → Code Generation Part 1, Unit 3
+
+---
+
+## Unit 3 Code Generation Plan 승인 & Part 2 Generation 실행 (임동규)
+**Timestamp**: 2026-08-31T00:00:00Z
+**User Input**: "2번 진행해줘." (Continue to Next Stage)
+**AI Response**: "Unit 3 Code Generation Plan 승인 기록. Part 2 Generation Step 1~14 순서 실행 — backend/app/admin_auth(schemas/repository/attempts/logic/deps/service/router) + main.py 라우터 등록 + tests(test_admin_auth_pbt/examples/api) + frontend/admin Vue 앱 뼈대(vite/router/guard/stores/api client+sse/views/components) + code-summary. Unit 1 코어 재사용, 스키마 변경 없음. 각 단계 완료 즉시 plan 체크박스 [x]. 검증: pytest 전체 통과·/health 200·npm build."
+**Context**: CONSTRUCTION - Code Generation Part 2 (Generation) 실행, Unit 3
+
+---
+
+## Unit 3 (임동규) - Code Generation Part 2 Generation 완료
+**Timestamp**: 2026-08-31T00:00:00Z
+**User Input**: "2번 진행해줘."
+**AI Response**: "Code Generation Part 2 Generation 실행 완료. 백엔드 admin_auth 패키지 8파일(schemas/repository/attempts/logic/deps/service/router/__init__) + main.py 라우터 등록, 테스트 3파일(test_admin_auth_pbt.py, test_admin_auth_examples.py, test_admin_api.py), 프론트 frontend/admin Vue3 앱 15파일 생성. 계획 14단계 전부 [x]. 검증: pytest 50 passed(24 Unit1+26 Unit3, default & ci 프로파일 7 passed 재현성), GET /health 200, admin 6라우트 등록, npm run build 성공(45 modules). 계약 변경 없음(§3.2/§2/§4 준수). PBT-02/03/07/08/09/10 충족, PBT-04/05/06 N/A. code-summary.md 생성. 표준 2옵션 완료 메시지 제시 — 승인 대기."
+**Context**: CONSTRUCTION - Per-Unit Loop / Unit 3 - Code Generation Part 2 완료, 사용자 승인 대기
+
+---

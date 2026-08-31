@@ -42,14 +42,19 @@
 - [~] INCEPTION - Workflow Planning (Units Generation 우선 진행)
 - [~] INCEPTION - Application Design (Units Generation 우선 진행)
 - [~] INCEPTION - Units Generation (Part 1 Planning 완료, Part 2 Generation 산출물 생성 완료 — 사용자 승인 대기)
-- [~] CONSTRUCTION - Per-Unit Loop (Unit 1 진행 중)
+- [~] CONSTRUCTION - Per-Unit Loop (Unit 1 완료, Unit 3 착수)
   - [x] Unit 1: Functional Design (승인 완료)
   - [x] Unit 1: NFR Requirements/Design (SKIP — 기술 스택 기본값 확정: FastAPI + Hypothesis + sqlite3)
-  - [~] Unit 1: Code Generation (Part 2 Generation 완료 — 승인 대기; 24 tests pass)
+  - [~] Unit 1: Code Generation (Part 2 Generation 완료 — 승인 대기; 24 tests pass, 커밋됨 340bf5e)
+  - [x] Unit 3 (임동규): Functional Design (승인 완료 — Q1~Q9 전부 A, 산출물 4종)
+  - [x] Unit 3 (임동규): NFR Requirements/Design (SKIP — Unit 1 선례, 스택 확정: FastAPI + sqlite3 + Vue3/Vite/Pinia)
+  - [x] Unit 3 (임동규): Code Generation Part 1 Planning 완료 — 계획서 승인
+  - [~] Unit 3 (임동규): Code Generation Part 2 Generation 완료 — 승인 대기 (backend 8파일+main.py, tests 3파일 50 passed[24 Unit1+26 Unit3, default & ci], /health 200, admin 6라우트, frontend/admin Vue앱 15파일 npm build 성공)
 - [ ] CONSTRUCTION - Build and Test
 
 ## Current Status
 - **Current Stage**: CONSTRUCTION - Per-Unit Loop / Unit 1 (Foundation & Shared Core, 김주영) - Code Generation Part 2 완료 (승인 대기)
 - **Unit 1 결과물**: backend/(app/core 9모듈, migrations 2, tests 5), shared/integration-contract.md, frontend 스캐폴딩, 루트/backend README. pytest 24 passed(default+ci), seed 정상, /health 200. → Unit 2~5 병렬 착수 가능 상태 도달.
-- **Active Developer**: 김주영 → Unit 1 (Foundation & Shared Core)
+- **Active Developer**: 임동규 → Unit 3 (Admin Auth & Real-time Monitoring)
+- **Unit 3 진행**: Functional Design 산출물 4종 생성 완료 — construction/unit3-admin/functional-design/{domain-entities,business-rules,business-logic-model,frontend-components}.md. Q1~Q9=A(시도제한 5회/5분 인메모리, JWT claims-only, 자유 상태전이, 스냅샷→SSE 정합/Last-Event-ID 재연결, recent 3건/10초 강조, 클라이언트 필터, Vue3+Vite+Pinia+Router, fetch+ReadableStream SSE 인증). 계약 변경 필요 없음. PBT: evaluate_login_attempt/validate_order_status/select_recent_orders/build_admin_claims 대상, PBT-04/05/06 N/A. 완료 메시지 제시 후 승인 시 Code Generation(NFR 생략 예상) 진입.
 - **Note**: Q1~Q6 전부 기본값(A) 확정 — 주문번호 A-YYYYMMDD-NNNN(매장+UTC 날짜별 리셋), active 세션 부분유니크 인덱스, 총액 실시간 계산, 메뉴 물리삭제, sqlite3 경량 Repository. Functional Design 산출물 3종 생성: construction/unit1-foundation/functional-design/{domain-entities,business-rules,business-logic-model}.md. PBT-01 충족(Testable Properties §6). 완료 메시지 제시 후 승인 시 Code Generation 진입(NFR 생략).

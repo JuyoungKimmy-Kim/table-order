@@ -37,8 +37,8 @@ async def health() -> dict[str, str]:
 # --- 유닛 라우터 등록 (각 유닛이 아래에 추가) ---
 # from app.customer.router import router as customer_router
 # app.include_router(customer_router, prefix="/api")
-# from app.admin_auth.router import router as admin_router
-# app.include_router(admin_router, prefix="/api")
+from app.admin_auth.router import router as admin_router  # Unit 3
+app.include_router(admin_router, prefix="/api")
 # from app.tables.router import router as tables_router
 # app.include_router(tables_router, prefix="/api")
 # from app.menu.router import router as menu_router
