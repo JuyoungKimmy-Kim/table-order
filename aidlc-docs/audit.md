@@ -266,3 +266,19 @@ AI-DLC 워크플로우를 시작해봅시다."
 **Context**: Git - unit2-customer 브랜치 커밋/푸시
 
 ---
+
+## Unit 2 고객 UI 리디자인 + 레스토랑 목업 데이터 (박찬준)
+**Timestamp**: 2026-08-31T00:00:00Z
+**User Input**: "mock data 많이 확보해줘 레스토랑으로해서. 나중에 다음 ui 구성 프롬프트를 같이 적용할거야 현재 테이블오더 고객 UI를 개선하고 싶어. 아래 사이트들의 디자인을 참고해서 리디자인해줘. 비주얼 톤 및 컬러/여백 참고: https://cafe.arikx.com/ 메뉴 탐색 및 주문 UI 구조 참고: https://order.mamannyc.com/101/ 기본 배경: #FFF8F0 주요 강조색: #D4A373 따뜻한 우드/크림 계열의 레스토랑 분위기 메뉴 카드에는 음식 이미지를 크게 사용 메뉴명, 설명, 가격의 시각적 위계를 명확하게 구성 모바일과 태블릿에서 터치하기 편하도록 버튼/카드/카테고리 영역을 충분히 크게 설계 카테고리 이동이 빠르고 직관적이어야 함 장바구니 및 주문 버튼은 사용자가 항상 쉽게 접근할 수 있도록 설계 기존 주문 로직, API, 데이터 구조 및 기능은 절대 변경하지 말 것 CSS와 고객 UI 컴포넌트의 구조/스타일만 수정할 것"
+**AI Response**: "브랜치 unit2-customer-ui-redesign(main 기준) 생성. (1) 레스토랑 목업: src/mock/restaurant-menu.js 신규 — 'MAISON TABLE' 비스트로 컨셉 13카테고리·99메뉴, GET /api/customer/menus 응답 형태 100% 동일, 어디에도 import 안 함(기능 무변경, 나중에 미리보기용 임시 주입 안내 주석 포함), 일부 is_available:false로 품절 UI 데모. (2) UI 리디자인(스타일/구조 전용): styles.css 전면 재작성 — 따뜻한 우드/크림 팔레트(--bg #FFF8F0, --accent #D4A373, 에스프레소 텍스트), 큰 radius·소프트 섀도우, 최소 48px 터치 타깃, serif 디스플레이(Playfair+Nanum Myeongjo)+Noto Sans KR. 컴포넌트는 클래스명·data-testid·이벤트 emit·스토어 바인딩 전부 보존한 채 구조만 보강: MenuCard에 .body 래퍼+설명(.desc)+담기 어포던스(.card-add) 추가로 이름→설명→가격 위계 확립, 큰 음식 이미지(4:3 카드/16:10 모달). MenuView는 topbar+CategoryTabs를 .menu-header로 감싸 상단 스티키(빠른 카테고리 이동), 조건부 렌더 동등 유지. CartFab는 하단 고정 바로 항상 접근. index.html에 웹폰트/theme-color 추가. 검증: npm run build 성공(47 modules, CSS 11.56kB). 로직/API/데이터구조/기능 무변경 — CSS와 컴포넌트 구조/스타일만 수정. stores(cart/session/menu)·api/client·router·backend 미변경."
+**Context**: CONSTRUCTION - Unit 2 고객 UI 리디자인(스타일/구조 전용) + 레스토랑 목업 데이터, 빌드 검증 완료
+
+---
+
+## Unit 2 UI 리디자인 커밋 & PR 진행 (박찬준)
+**Timestamp**: 2026-08-31T00:00:00Z
+**User Input**: "3"
+**AI Response**: "옵션 3(커밋 & PR) 선택. unit2-customer-ui-redesign 브랜치에 변경분 6파일(restaurant-menu.js 신규, styles.css/MenuCard.vue/MenuView.vue/index.html, audit.md) 커밋·origin 푸시. gh CLI 미설치 → GitHub compare URL로 PR 생성 링크 안내."
+**Context**: Git - Unit 2 UI 리디자인 커밋/푸시/PR
+
+---
