@@ -74,7 +74,7 @@ B) 아니오 — 일부 유닛 경계를 수정하고 싶음 (X)Other 또는 아
 
 X) Other (please describe after [Answer]: tag below)
 
-[Answer]: 
+[Answer]: 예
 
 ## Question 2
 개발자 배정(김주영=Unit1, 박찬준=Unit2, 임동규=Unit3, 이명우=Unit4, 윤태경=Unit5)에 동의하시나요?
@@ -85,7 +85,7 @@ B) 아니오 — 배정을 변경하고 싶음 (아래에 원하는 배정 기�
 
 X) Other (please describe after [Answer]: tag below)
 
-[Answer]: 
+[Answer]: 예
 
 ## Question 3
 Unit 1(Foundation)은 다른 유닛의 의존 대상입니다. 병렬 개발 방식을 어떻게 할까요?
@@ -96,7 +96,7 @@ B) 5명이 처음부터 완전 동시 진행하고, 계약은 개발 중 조율
 
 X) Other (please describe after [Answer]: tag below)
 
-[Answer]: 
+[Answer]: A
 
 ## Question 4
 각 유닛은 백엔드 API와 프론트엔드 UI를 **모두 포함**하는 풀스택 유닛으로 볼까요, 아니면 백엔드/프론트를 분리할까요?
@@ -107,7 +107,7 @@ B) 계층 분리 — 백엔드 담당과 프론트 담당을 나눔
 
 X) Other (please describe after [Answer]: tag below)
 
-[Answer]: 
+[Answer]: A
 
 ## Question 5
 관리자 인증(Unit 3)과 메뉴 관리(Unit 5)는 규모가 다를 수 있습니다. 작업량 균형을 위해 조정이 필요할까요?
@@ -118,4 +118,19 @@ B) 메뉴 관리(Unit 5)에 다른 관리자 공통 기능(예: 관리자 레이
 
 X) Other (please describe after [Answer]: tag below)
 
-[Answer]: 
+[Answer]: A
+
+---
+
+# 답변 분석 (Step 7)
+- Q1=예, Q2=예, Q3=A, Q4=A, Q5=A
+- 모든 답변이 명확하며 상호 모순·모호·미정의 표현 없음 → 후속 질문 불필요, Generation 진행 가능
+
+---
+
+# 생성 산출물 체크리스트 (Part 2: Generation)
+- [x] `aidlc-docs/inception/application-design/unit-of-work.md` — 유닛 정의·책임·경계·코드 구성 전략(Greenfield)
+- [x] `aidlc-docs/inception/application-design/unit-of-work-dependency.md` — 의존성 매트릭스
+- [x] `aidlc-docs/inception/application-design/unit-of-work-story-map.md` — 요구사항/스토리 → 유닛 매핑
+- [x] 유닛 경계·의존성 검증
+- [x] 모든 요구사항이 유닛에 배정되었는지 확인

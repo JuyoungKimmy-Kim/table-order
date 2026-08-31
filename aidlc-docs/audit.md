@@ -42,3 +42,11 @@ AI-DLC 워크플로우를 시작해봅시다."
 **Context**: INCEPTION - Units Generation Part 1 (Planning)
 
 ---
+
+## Units Generation - Part 2 Generation
+**Timestamp**: 2026-08-31T00:00:00Z
+**User Input**: "aidlc-docs/aidlc-state.md를 확인하고, 첫 번째 미완료 항목부터 이어서 진행해주세요."
+**AI Response**: "unit-of-work-plan.md의 확정 질문 답변(Q1=예, Q2=예, Q3=A, Q4=A, Q5=A) 확인 — 모호성 없음(Step 7), 후속 질문 불필요. Part 2 Generation 실행: 3개 산출물 생성 — inception/application-design/unit-of-work.md(5개 유닛 정의·경계·코드 구성 전략), unit-of-work-dependency.md(의존성 매트릭스·병렬 개발 순서·순환 점검), unit-of-work-story-map.md(요구사항 3.1.x/3.2.x → 유닛 매핑·커버리지 검증). plan 체크박스 및 aidlc-state.md 갱신. 완료 메시지 제시 후 사용자 승인 대기."
+**Context**: INCEPTION - Units Generation Part 2 (Generation)
+
+---
