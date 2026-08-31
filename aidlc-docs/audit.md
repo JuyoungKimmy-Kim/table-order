@@ -114,3 +114,11 @@ AI-DLC 워크플로우를 시작해봅시다."
 **Context**: CONSTRUCTION - Code Generation Part 2 (Generation) 완료, Unit 1
 
 ---
+
+## Architecture Visualization (보조 산출물)
+**Timestamp**: 2026-08-31T00:00:00Z
+**User Input**: "archtiecture html 로 만들 수 있어 ?"
+**AI Response**: "dataviz 스킬 참고(구조도라 색상 원칙만 적용). self-contained HTML 생성: aidlc-docs/construction/unit1-foundation/architecture.html. Mermaid CDN 렌더, 라이트/다크 모드, CVD 구분 유닛 색 5종. 포함: 유닛 구성 카드, 시스템 레이어, 유닛 의존성 그래프, SSE 이벤트 흐름+표, 코어 모듈 사용 매트릭스, 개발 Phase. unit-dependency-graph.md와 integration-contract.md 내용 기반."
+**Context**: CONSTRUCTION - Unit 1 보조 시각화 산출물(워크플로우 스테이지 아님)
+
+---

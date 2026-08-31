@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>테이블오더 서비스 — 아키텍처</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<style>
+  :root {
+    /* 텍스트/표면 토큰 (dataviz: 텍스트는 텍스트 토큰 색) */
+    --bg: #f6f8fa;
+    --surface: #ffffff;
+    --ink: #1a1f29;
+    --ink-2: #4a5261;
+    --ink-muted: #8a92a1;
+    --border: #e3e7ee;
+    /* 유닛 카테고리 색 (고정 순서, 서로 구분되는 hue) */
+    --u1: #1a73e8; /* Foundation - 파랑 */
+    --u2: #188038; /* Customer - 초록 */
+    --u3: #b5501f; /* Admin - 주황 */
+    --u4: #8127c6; /* Table/Session - 보라 */
+    --u5: #b3268f; /* Menu - 마젠타 */
+    --accent: #1a73e8;
+    --code-bg: #f0f3f7;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #10141b;
+      --surface: #1a2029;
+      --ink: #e8ecf2;
+      --ink-2: #b3bccb;
+      --ink-muted: #7c8798;
+      --border: #2a323e;
+      --u1: #6ba4f0; --u2: #5cc27e; --u3: #e08a52; --u4: #b57ce0; --u5: #e06bc0;
+      --accent: #6ba4f0;
+      --code-bg: #131922;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    line-height: 1.6;
+  }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 40px 24px 80px; }
+  header h1 { font-size: 28px; margin: 0 0 4px; letter-spacing: -0.02em; }
+  header .sub { color: var(--ink-muted); font-size: 14px; }
+  header .meta { color: var(--ink-muted); font-size: 12px; margin-top: 8px; }
+  section { margin-top: 44px; }
+  h2 {
+    font-size: 18px; margin: 0 0 16px; padding-bottom: 8px;
+    border-bottom: 2px solid var(--border); letter-spacing: -0.01em;
+  }
+  h2 .n { color: var(--ink-muted); font-weight: 600; margin-right: 8px; }
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 20px; margin-top: 16px;
+  }
+  .mermaid { display: flex; justify-content: center; overflow-x: auto; }
+  /* 유닛 카드 그리드 */
+  .units { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+  .unit {
+    background: var(--surface); border: 1px solid var(--border);
+    border-left: 4px solid var(--uc); border-radius: 10px; padding: 14px 16px;
+  }
+  .unit .tag {
+    display: inline-block; font-size: 11px; font-weight: 700; color: #fff;
+    background: var(--uc); border-radius: 6px; padding: 2px 8px; margin-bottom: 6px;
+  }
+  .unit .owner { font-size: 12px; color: var(--ink-muted); }
+  .unit .name { font-weight: 700; font-size: 15px; margin: 2px 0 6px; }
+  .unit ul { margin: 6px 0 0; padding-left: 18px; font-size: 13px; color: var(--ink-2); }
+  .unit.done .name::after { content: " ✔"; color: var(--u2); }
+  /* 테이블 */
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); }
+  th { color: var(--ink-muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.03em; }
+  td.c, th.c { text-align: center; }
+  code { background: var(--code-bg); padding: 1px 6px; border-radius: 5px; font-size: 12.5px;
+    font-family: "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace; }
+  .legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12px; color: var(--ink-2); margin-top: 12px; }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .sw { width: 14px; height: 3px; border-radius: 2px; display: inline-block; }
+  .sw.solid { background: var(--ink-2); }
+  .sw.dash { background: repeating-linear-gradient(90deg, var(--ink-muted) 0 4px, transparent 4px 7px); }
+  .evt { font-family: "SF Mono", Menlo, monospace; font-size: 12px; color: var(--accent); }
+  footer { margin-top: 60px; color: var(--ink-muted); font-size: 12px; text-align: center; }
+</style>
+</head>
+<body data-palette="#1a73e8,#188038,#b5501f,#8127c6,#b3268f">
+<div class="wrap">
+  <header>
+    <h1>테이블오더 서비스 — 시스템 아키텍처</h1>
+    <div class="sub">Python · FastAPI · SQLite · Vue · SSE · 모노레포 · 5-유닛 병렬 개발</div>
+    <div class="meta">기준: Unit 1(Foundation) 코어/계약 확정 (commit 340bf5e) · 소유: Unit 1 (김주영)</div>
+  </header>
+
+  <!-- 1. 유닛 개요 -->
+  <section>
+    <h2><span class="n">01</span>유닛 구성</h2>
+    <div class="units">
+      <div class="unit done" style="--uc: var(--u1)">
+        <span class="tag">Unit 1</span>
+        <div class="name">Foundation &amp; Shared Core</div>
+        <div class="owner">김주영 · 기반</div>
+        <ul><li>스키마 · 도메인 모델</li><li>순수함수 · 공통 유틸</li><li>API 계약 · SSE 브로커</li></ul>
+      </div>
+      <div class="unit" style="--uc: var(--u2)">
+        <span class="tag">Unit 2</span>
+        <div class="name">Customer Ordering</div>
+        <div class="owner">박찬준 · 풀스택</div>
+        <ul><li>자동 로그인 · 메뉴 탐색</li><li>장바구니 · 주문 생성</li><li>주문 내역 (3.1.1~3.1.5)</li></ul>
+      </div>
+      <div class="unit" style="--uc: var(--u3)">
+        <span class="tag">Unit 3</span>
+        <div class="name">Admin Auth &amp; Monitoring</div>
+        <div class="owner">임동규 · 풀스택</div>
+        <ul><li>JWT 인증 (16h, bcrypt)</li><li>실시간 SSE 모니터링</li><li>주문 상태 변경 (3.2.1~2)</li></ul>
+      </div>
+      <div class="unit" style="--uc: var(--u4)">
+        <span class="tag">Unit 4</span>
+        <div class="name">Table &amp; Session Mgmt</div>
+        <div class="owner">이명우 · 풀스택</div>
+        <ul><li>테이블 초기 설정</li><li>세션 라이프사이클</li><li>직권 삭제 · 이력 (3.2.3)</li></ul>
+      </div>
+      <div class="unit" style="--uc: var(--u5)">
+        <span class="tag">Unit 5</span>
+        <div class="name">Menu Management</div>
+        <div class="owner">윤태경 · 풀스택</div>
+        <ul><li>메뉴 CRUD · 카테고리</li><li>노출 순서 · 검증 (3.2.4)</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. 시스템 레이어 -->
+  <section>
+    <h2><span class="n">02</span>시스템 레이어</h2>
+    <div class="card">
+      <div class="mermaid">
+flowchart TB
+  subgraph FE["Frontend (Vue)"]
+    CUST["고객용 앱 (Unit 2)"]
+    ADMIN["관리자 앱 (Unit 3/4/5)"]
+  end
+  subgraph BE["Backend (FastAPI)"]
+    R2["customer 라우터 (U2)"]
+    R3["admin_auth 라우터 (U3)"]
+    R4["tables 라우터 (U4)"]
+    R5["menu 라우터 (U5)"]
+    subgraph CORE["app.core — Unit 1 (김주영)"]
+      DOM["domain 순수함수"]
+      MOD["models / DTO"]
+      DB2["db 접근계층"]
+      ERR["errors · validation"]
+      SEC["security bcrypt/JWT"]
+      SSEB["sse 브로커"]
+    end
+  end
+  STORE[("SQLite")]
+
+  CUST -->|"REST /api"| R2
+  ADMIN -->|"REST /api"| R3
+  ADMIN --> R4
+  ADMIN --> R5
+  ADMIN -.->|"SSE stream"| SSEB
+  R2 --> CORE
+  R3 --> CORE
+  R4 --> CORE
+  R5 --> CORE
+  DB2 --> STORE
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. 유닛 의존성 -->
+  <section>
+    <h2><span class="n">03</span>유닛 의존성 그래프</h2>
+    <div class="card">
+      <div class="mermaid">
+flowchart TD
+  U1["Unit 1 · Foundation (김주영)"]
+  U2["Unit 2 · Customer (박찬준)"]
+  U3["Unit 3 · Admin (임동규)"]
+  U4["Unit 4 · Table/Session (이명우)"]
+  U5["Unit 5 · Menu (윤태경)"]
+  U2 -->|"코어/계약"| U1
+  U3 -->|"코어/계약"| U1
+  U4 -->|"코어/계약"| U1
+  U5 -->|"코어/계약"| U1
+  U2 -.->|"메뉴 읽기"| U5
+  U2 -.->|"세션 공유"| U4
+  U3 -.->|"SSE 구독"| U2
+  U3 -.->|"SSE 구독"| U4
+      </div>
+      <div class="legend">
+        <span><i class="sw solid"></i> 빌드/코드 의존 (import · 계약)</span>
+        <span><i class="sw dash"></i> 런타임 의존 (SSE 이벤트 · 데이터 조회)</span>
+      </div>
+      <p style="font-size:13px;color:var(--ink-2);margin:14px 0 0">
+        모든 기능 유닛은 Unit 1의 코어/계약에만 강하게 의존한다. 유닛 간(점선) 결합은 Unit 1
+        계약·브로커를 통한 <b>간접 결합</b>이라 <b>순환이 없고 완전 병렬</b>이 가능하다.
+      </p>
+    </div>
+  </section>
+
+  <!-- 4. SSE 이벤트 흐름 -->
+  <section>
+    <h2><span class="n">04</span>SSE 실시간 이벤트 흐름</h2>
+    <div class="card">
+      <div class="mermaid">
+flowchart LR
+  U2["U2 주문 생성"] -->|"order.created"| B["core.sse 브로커 (U1)"]
+  U3P["U3 상태 변경"] -->|"order.status_changed"| B
+  U4A["U4 직권 삭제"] -->|"order.deleted"| B
+  U4B["U4 세션 종료"] -->|"session.closed"| B
+  B ==>|"GET /api/admin/orders/stream"| U3S["U3 모니터링 대시보드"]
+      </div>
+      <table style="margin-top:16px">
+        <thead><tr><th>이벤트</th><th>발행</th><th>구독</th><th>페이로드</th></tr></thead>
+        <tbody>
+          <tr><td class="evt">order.created</td><td>Unit 2</td><td>Unit 3</td><td>OrderSummary</td></tr>
+          <tr><td class="evt">order.status_changed</td><td>Unit 3</td><td>Unit 3</td><td><code>{order_id, table_id, status}</code></td></tr>
+          <tr><td class="evt">order.deleted</td><td>Unit 4</td><td>Unit 3</td><td><code>{order_id, table_id, table_total}</code></td></tr>
+          <tr><td class="evt">session.closed</td><td>Unit 4</td><td>Unit 3</td><td><code>{table_id, session_id}</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 5. 코어 모듈 사용 매트릭스 -->
+  <section>
+    <h2><span class="n">05</span>코어 모듈 사용 매트릭스</h2>
+    <div class="card">
+      <table>
+        <thead><tr>
+          <th><code>app.core</code> 모듈</th>
+          <th class="c">U2 고객</th><th class="c">U3 관리자</th><th class="c">U4 세션</th><th class="c">U5 메뉴</th>
+        </tr></thead>
+        <tbody>
+          <tr><td><code>domain</code> 순수함수</td><td class="c">✔</td><td class="c">—</td><td class="c">✔</td><td class="c">—</td></tr>
+          <tr><td><code>models</code> 엔티티/DTO</td><td class="c">✔</td><td class="c">✔</td><td class="c">✔</td><td class="c">✔</td></tr>
+          <tr><td><code>db</code> 연결/트랜잭션</td><td class="c">✔</td><td class="c">✔</td><td class="c">✔</td><td class="c">✔</td></tr>
+          <tr><td><code>errors</code> 표준 에러</td><td class="c">✔</td><td class="c">✔</td><td class="c">✔</td><td class="c">✔</td></tr>
+          <tr><td><code>validation</code></td><td class="c">✔</td><td class="c">✔</td><td class="c">—</td><td class="c">✔</td></tr>
+          <tr><td><code>pagination</code></td><td class="c">✔</td><td class="c">—</td><td class="c">✔</td><td class="c">✔</td></tr>
+          <tr><td><code>security</code> bcrypt/JWT</td><td class="c">✔</td><td class="c">✔</td><td class="c">✔</td><td class="c">—</td></tr>
+          <tr><td><code>sse</code> publish/subscribe</td><td class="c">publish</td><td class="c">subscribe</td><td class="c">publish</td><td class="c">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 6. 개발 순서 -->
+  <section>
+    <h2><span class="n">06</span>개발 순서 (Phase)</h2>
+    <div class="card">
+      <div class="mermaid">
+flowchart LR
+  P0["Phase 0<br/>Unit 1 코어/계약 확정 ✔"] --> P1
+  subgraph P1["Phase 1 · 병렬 개발"]
+    A["Unit 2 (박찬준)"]
+    C["Unit 3 (임동규)"]
+    D["Unit 4 (이명우)"]
+    E["Unit 5 (윤태경)"]
+  end
+  P1 --> INT["통합<br/>Build &amp; Test"]
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Table Order Service · AI-DLC CONSTRUCTION · 문서 소유: Unit 1 (김주영)<br/>
+    상세: aidlc-docs/construction/unit1-foundation/unit-dependency-graph.md · shared/integration-contract.md
+  </footer>
+</div>
+
+<script>
+  const dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: dark ? 'dark' : 'default',
+    flowchart: { curve: 'basis', useMaxWidth: true },
+    themeVariables: { fontfamily: 'inherit' }
+  });
+</script>
+</body>
+</html>
