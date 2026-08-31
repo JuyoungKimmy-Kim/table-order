@@ -170,3 +170,107 @@ AI-DLC 워크플로우를 시작해봅시다."
 **Context**: CONSTRUCTION - Unit 4 테스트 범위 결정 (프론트 테스트 보류)
 
 ---
+
+## Unit 2 착수 — 프로젝트 리뷰 및 진행 방식 결정 (박찬준)
+**Timestamp**: 2026-08-31T00:00:00Z
+**User Input**: "난 박찬준이고, 내 unit에 할당된 작업을 시작해야돼. 우선 프로젝트 탐색하고 리뷰해보고, 내가 해야할일 정리"
+**AI Response**: "프로젝트 전체 리뷰 수행 — Unit 1(Foundation) 완료 상태 확인(core 9모듈, 스키마, 계약 SSOT, 시드, 24 tests pass). 박찬준=Unit 2(Customer Ordering, 풀스택) 담당 확인. 요구사항 3.1.1~3.1.5, 계약 §3.1(4개 고객 API), 의존성(U1 하드/U5 메뉴데이터/U4 세션개념), 재사용 코어(domain/models/errors/validation/pagination/security/sse) 정리. 해야 할 일 목록 제시(백엔드 app/customer 4엔드포인트 + frontend/customer Vue 앱 + 테스트). 진행 방식 질문."
+**Context**: CONSTRUCTION - Per-Unit Loop / Unit 2 착수, 프로젝트 리뷰
+
+---
+
+## Unit 2 진행 방식 선택 (박찬준)
+**Timestamp**: 2026-08-31T00:00:00Z
+**User Input**: "(AskUserQuestion 응답) Unit 2 개발을 어떤 방식으로 시작할까요? = AI-DLC 정식 절차 (권장)"
+**AI Response**: "AI-DLC Construction Per-Unit Loop 정식 절차로 Unit 2 진행 결정. 순서: Functional Design → NFR(스택 확정 시 SKIP 예정) → Code Generation. 규칙 파일 로드(.aidlc-rule-details/construction/functional-design.md, common). 확장: PBT Partial 활성(PBT-02/03/07/08/09 강제), Security/Resiliency 비활성. Functional Design Part 1 — 플랜+질문 파일 생성 착수."
+**Context**: CONSTRUCTION - Per-Unit Loop / Unit 2, 진행 방식 확정
+
+---
+
+## Unit 2 Functional Design Part 1 — 인터뷰(문항별) 답변 수집 (박찬준)
+**Timestamp**: 2026-08-31T00:00:00Z
+**User Input**: "인터뷰로 진행하자 문항마다" + (문항별 AskUserQuestion 응답) Q1=토큰(JWT)만 저장 / Q2=재로그인 화면 전환 / Q3=카드 클릭→모달 / Q4=테이블별 분리(cart:{table_id}) / Q5="주문 전체 거부를 하는데, 프론트에서는 품절같은 표시를 해줘야지" / Q6=진입 시 재조회 / Q7=Unit 2가 직접 구현 / Q8=Vue3+Vite+Pinia+Router
+**AI Response**: "Functional Design Plan(unit2-customer-functional-design-plan.md)에 8개 질문을 [Answer] 태그로 임베드 후 인터뷰 방식으로 문항별 수집. 답변 요약표(§6) 기록. Q5 추가요구 반영: 서버 에러 응답 error.details에 문제 menu_id 목록 포함하여 프론트가 장바구니 항목에 '품절/판매불가' 표시(계약 §0.2 details 활용, 계약 변경 아님). 계약 영향 없음, 모호 응답 없음 → 산출물 생성 진행 가능. 다음: Functional Design 산출물 4종 생성(business-logic-model/business-rules/domain-entities/frontend-components)."
+**Context**: CONSTRUCTION - Functional Design Part 1 (Planning) 답변 완료, Unit 2
+
+---
+
+## Unit 2 Functional Design 산출물 생성 (박찬준)
+**Timestamp**: 2026-08-31T00:00:00Z
+**User Input**: "(인터뷰 답변 완료에 따라 산출물 생성 진행)"
+**AI Response**: "construction/unit2-customer/functional-design/ 에 4종 생성: domain-entities.md(공유 엔티티 읽기/쓰기 경계 + DTO 매핑, 재정의 금지), business-rules.md(BR-C1~C6: 인증·메뉴노출·장바구니·주문생성/재계산/채번·내역필터), business-logic-model.md(4개 API 흐름·주문생성 트랜잭션·채번 원자성·상태전이·PBT 대상), frontend-components.md(Vue3+Pinia 라우트/스토어/컴포넌트 계층·API 연동·품절 표시 UX). Q5 품절 표시는 error.details 활용(계약 변경 아님). plan 체크박스 [x], aidlc-state 갱신. 완료 메시지(2옵션) 제시 후 승인 대기 — 승인 전 NFR/Code Generation 진입 안 함."
+**Context**: CONSTRUCTION - Functional Design (산출물 생성 완료, 승인 대기), Unit 2
+
+---
+
+## Unit 2 Functional Design 승인 + NFR SKIP 결정 (박찬준)
+**Timestamp**: 2026-08-31T00:00:00Z
+**User Input**: "승인"
+**AI Response**: "Unit 2 Functional Design 승인 기록, aidlc-state Functional Design [x] 처리. NFR Requirements/Design 평가: 기술 스택(FastAPI+Vue+SQLite) 이미 확정, 소규모 단일매장 로컬 데모로 성능/보안/확장 신규 NFR 없음(Security/Resiliency 확장 비활성) → Unit 1과 동일하게 NFR SKIP. Code Generation 규칙 로드 후 Part 1(구현 플랜) 작성 진입."
+**Context**: CONSTRUCTION - Functional Design 승인 & NFR SKIP, Unit 2
+
+---
+
+## Unit 2 Code Generation Part 1 (Planning) — 플랜 생성 & 승인 요청 (박찬준)
+**Timestamp**: 2026-08-31T00:00:00Z
+**User Input**: "(승인에 따라 Code Generation 진입)"
+**AI Response**: "Unit 2 Code Generation Plan 생성 — construction/plans/unit2-customer-code-generation-plan.md. 17 스텝: 백엔드(패키지·schemas·auth·repository·service·router·요약 7) + 테스트(DTO round-trip PBT·API 통합 예제·요약 3) + 프론트(Vite/Vue 스캐폴딩·Pinia 스토어·API 클라이언트·뷰/컴포넌트·요약 5) + 문서/검증 2. 재사용 core 8모듈, 계약 변경 없음, 신규 마이그레이션 없음(스키마 Unit1 소유). PBT 강제규칙 매핑(Step 8/9). 스토리 3.1.1~3.1.5 추적성 명시. 승인 시 Part 2 Step 1부터 순차 실행. GATE: 승인 전 코드 생성 안 함."
+**Context**: CONSTRUCTION - Code Generation Part 1 (Planning) 승인 요청, Unit 2
+
+---
+
+## Unit 2 Code Generation Plan 승인 & Part 2 Generation 실행 (박찬준)
+**Timestamp**: 2026-08-31T00:00:00Z
+**User Input**: "승인"
+**AI Response**: "Unit 2 Code Generation Plan 승인 기록. Part 2 Generation Step 1~17 순차 실행 시작 — 백엔드(customer 패키지/schemas/auth/repository/service/router) + 테스트(DTO PBT/API 통합) + 프론트(Vue3+Vite+Pinia) + 문서/검증. 각 스텝 완료 즉시 plan 체크박스 [x], aidlc-state 갱신. 검증: pytest(default & ci)."
+**Context**: CONSTRUCTION - Code Generation Part 2 (Generation) 실행, Unit 2
+
+---
+
+## Unit 2 Code Generation Part 2 — 진행 상태 문의 & 백엔드 검증 진행 결정 (박찬준)
+**Timestamp**: 2026-08-31T00:00:00Z
+**User Input**: "구현완료했니"
+**AI Response**: "정직한 진행현황 보고 — 백엔드 코드(Step1~7) 완료, Step8(DTO PBT) 생성, Step9~17 미완, pytest 미실행 상태임을 명시. 계속 진행(A) vs 백엔드 조기 검증(B) 선택지 제시."
+**Context**: CONSTRUCTION - Code Generation Part 2 진행 상태 확인, Unit 2
+
+---
+
+## Unit 2 — 남은 스텝 순차 완료 선택 & 백엔드 검증 결과 (박찬준)
+**Timestamp**: 2026-08-31T00:00:00Z
+**User Input**: "a"
+**AI Response**: "선택지 A(Step 9~17 순차 완료) 채택. Step 8·9(테스트) 작성 후 백엔드 검증 실행. 의존성 이슈: Python 3.14 환경에서 requirements 핀 버전(pydantic 2.10.3 등) 소스빌드 실패 → 이미 설치된 3.14 호환 버전(pydantic 2.12.5/httpx 0.28.1/pytest 9.0.2) 활용, 누락분(fastapi/hypothesis/bcrypt/PyJWT) 최신 3.14 휠로 설치. 통합 검증에서 결함 2건 발견·수정: (1) JWT sub 정수 저장→PyJWT sub 문자열 강제 검증 실패로 인증 401 → str/int 변환. (2) async create_order + sync get_conn 로 sqlite 스레드 교차 오류 → router 연결 의존성·엔드포인트 async 통일. 결과: Unit2 16개 테스트 + 전체 40 passed(default & ci 프로파일). Step 8·9·10 [x], test-summary.md 작성. 이후 프론트(Step 11~16)·최종 검증(Step 17) 진행."
+**Context**: CONSTRUCTION - Code Generation Part 2, 백엔드 완료·검증(40 passed), Unit 2
+
+---
+
+## Unit 2 Code Generation Part 2 — 프론트엔드 완료 & 최종 검증 (박찬준)
+**Timestamp**: 2026-08-31T00:00:00Z
+**User Input**: "(A 선택에 따라 Step 11~17 자율 진행)"
+**AI Response**: "프론트엔드(Step 11~16) 생성 완료 — frontend/customer Vite+Vue3+Pinia+Router: 뷰4(Setup/Menu/Cart/Orders)·컴포넌트10·스토어3(session/cart/menu)·api client·styles·README. data-testid 부여. 인증 가드/401 리다이렉트/품절 표시(Q5)/테이블별 장바구니(Q4)/진입 재조회(Q6) 반영. Step 17 검증: 백엔드 pytest 40 passed(default & ci), 프론트 npm install+npm run build 성공(47 modules). 요약 문서 4종(backend/test/frontend/code-summary) 작성. plan 17스텝 전체 [x], aidlc-state Unit2 Code Generation [x] 갱신. Code Generation 완료 메시지(2옵션) 제시 예정."
+**Context**: CONSTRUCTION - Code Generation Part 2 완료(백엔드+프론트+검증), Unit 2
+
+---
+
+## Unit 2 Code Generation 완료 승인(다음 단계 진행) & Git 커밋 전략 (박찬준)
+**Timestamp**: 2026-08-31T00:00:00Z
+**User Input**: "다음 단계로 진행하는데, 이대로 github에 commit, push하면 될지 알려줘. 내 역할인 unit2의 작업필요사항을 다 진행한건지 판단"
+**AI Response**: "Unit 2 완결성 판단: 요구사항 3.1.1~3.1.5 및 계약 §3.1 4엔드포인트 전부 구현·검증(백엔드 40 passed, 프론트 build 성공), 경계 준수(core 미수정, main.py 라우터 슬롯만). 커밋 대상 청결(node_modules/dist/pycache/db 전부 ignored). 조정사항 2건 안내: requirements.txt 핀버전 Py3.14 미호환(Unit1 소유, 협의 필요), main.py 공용 파일 머지주의. 공유 origin/main 직접 커밋 비권장 → 브랜치 전략 질의."
+**Context**: Git - Unit 2 커밋 전략 결정 요청
+
+---
+
+## Unit 2 커밋 전략 선택: feature 브랜치 + PR (박찬준)
+**Timestamp**: 2026-08-31T00:00:00Z
+**User Input**: "(AskUserQuestion 응답) feature 브랜치 + PR (권장)"
+**AI Response**: "unit2-customer 브랜치 생성, Unit 2 변경분 49개 파일 스테이징(백엔드 customer/tests, 프론트 customer, 문서, main.py, state/audit). gh CLI 미설치 확인 → 커밋·푸시 후 PR 링크 안내 예정. (별건: statusline-setup 백그라운드 에이전트는 bedrock 모델 권한(403 explicit deny)로 실패 — Unit 2 무관.)"
+**Context**: Git - unit2-customer 브랜치 커밋/푸시
+
+---
+
+## Unit 2 브랜치 origin/main rebase (박찬준)
+**Timestamp**: 2026-08-31T00:00:00Z
+**User Input**: "main기준으로 rebase해"
+**AI Response**: "origin/main이 8커밋 선행(Unit 3 Admin 머지 60ae5e6, Unit 4 Table/Session PR#1 머지 6fed42a, architecture diagram 등) 확인. unit2-customer(ee2391b, 1커밋)를 origin/main(6fed42a) 위로 rebase. 공용 파일 3개 충돌 해소 — main.py(customer+admin+tables 라우터 3종 모두 등록 유지, menu(U5)는 주석), aidlc-state.md(Unit 1 완료 + Unit 2/3/4 진행 union 병합), audit.md(양쪽 append-only 로그 전부 보존). 리베이스 성공 → 984a744. 통합 검증 pytest: 80 passed, 1 failed. 유일 실패는 Unit 3 test_admin_api.py::test_stream_returns_event_stream_response — asyncio.get_event_loop() 관용구가 Python 3.14에서 제거되어 RuntimeError(신 표준 asyncio.run). 내 rebase/Unit 2 코드와 무관한 기존 결함(app.admin_auth 직접 import, main.py 미경유). 내 커밋은 Unit 2 파일 + 공용 3파일만 변경(admin_auth/tables/test_admin_api 미수정) 확인. 이미 원격에 ee2391b로 푸시된 브랜치 → force-push(--force-with-lease) 필요, 이력 재작성/외부노출 작업이라 사용자 확인 요청. 사용자 승인('force-push 진행') → 본 audit 항목을 984a744에 amend 후 git push --force-with-lease origin unit2-customer 실행."
+**Context**: Git - unit2-customer origin/main rebase 완료 → force-push 실행
+
+---
