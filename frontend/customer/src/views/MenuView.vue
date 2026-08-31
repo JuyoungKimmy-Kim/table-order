@@ -37,7 +37,10 @@ function addToCart(m, qty) {
     <div class="menu-header">
       <header class="topbar">
         <span class="title">{{ session.storeName }} · {{ session.tableNumber }}번</span>
-        <button class="ghost" @click="router.push({ name: 'orders' })" data-testid="nav-orders">주문내역</button>
+        <div class="topbar-actions">
+          <button class="ghost" @click="router.push({ name: 'guestbook' })" data-testid="nav-guestbook">방명록</button>
+          <button class="ghost" @click="router.push({ name: 'orders' })" data-testid="nav-orders">주문내역</button>
+        </div>
       </header>
       <CategoryTabs
         v-if="!menu.loading && !menu.error"

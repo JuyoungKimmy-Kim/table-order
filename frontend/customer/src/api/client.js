@@ -46,4 +46,6 @@ export const api = {
   menus: () => request('/menus'),
   createOrder: (items) => request('/orders', { method: 'POST', body: { items } }),
   orders: (page = 1, size = 20) => request(`/orders?page=${page}&size=${size}`),
+  guestbookList: (page = 1, size = 50) => request(`/guestbook?page=${page}&size=${size}`),
+  createGuestbook: (payload) => request('/guestbook', { method: 'POST', body: payload }),
 }

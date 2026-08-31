@@ -47,3 +47,6 @@ app.include_router(tables_router, prefix="/api")
 # Unit 5: Menu Management (윤태경)
 from app.menu.router import router as menu_router
 app.include_router(menu_router, prefix="/api")
+# 방명록(Guestbook): 고객 그림판 카드메모 (매장 공유)
+from app.guestbook.router import router as guestbook_router
+app.include_router(guestbook_router, prefix="/api")

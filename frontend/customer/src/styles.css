@@ -551,3 +551,31 @@ img { display: block; }
   .card:hover { transform: none; }
   .card:hover .thumb img { transform: none; }
 }
+
+/* ============================================================
+   방명록 (Guestbook) — 우드/크림 테마
+   ============================================================ */
+.topbar-actions { display: flex; gap: 4px; }
+.gb-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+.gb-card { background: var(--card); border: 1px solid var(--line-soft); border-radius: var(--radius-sm); padding: 10px; display: flex; flex-direction: column; gap: 8px; box-shadow: var(--shadow-sm); }
+.gb-thumb { aspect-ratio: 4 / 3; border-radius: var(--radius-sm); overflow: hidden; background: #fff; border: 1px solid var(--line); }
+.gb-thumb img { width: 100%; height: 100%; object-fit: contain; }
+.gb-meta { display: flex; justify-content: space-between; align-items: baseline; font-size: 0.85rem; gap: 8px; }
+.gb-author { font-weight: 700; color: var(--accent-deep); }
+.gb-time { color: var(--muted); font-size: 0.75rem; white-space: nowrap; }
+
+/* --- 그림판 모달 --- */
+.drawing-modal { display: flex; flex-direction: column; gap: 14px; }
+.dm-title { margin: 0 0 4px; font-family: var(--font-serif); font-size: 1.2rem; color: var(--accent-deep); }
+.dm-canvas-wrap { display: flex; justify-content: center; }
+.dm-canvas { border: 1px solid var(--line); border-radius: var(--radius-sm); background: #fff; touch-action: none; cursor: crosshair; }
+.dm-tools { display: flex; align-items: center; gap: 12px; }
+.dm-colors { display: flex; gap: 6px; }
+.dm-swatch { width: 32px; height: 32px; min-width: 32px; min-height: 32px; border-radius: var(--radius-pill); border: 2px solid transparent; padding: 0; }
+.dm-swatch.active { border-color: var(--text); box-shadow: 0 0 0 2px #fff inset; }
+.dm-swatch.eraser { background: var(--bg-warm); border: 1px solid var(--line); font-size: 1rem; }
+.dm-swatch.eraser.active { border-color: var(--text); }
+.dm-range { flex: 1; min-width: 0; }
+.dm-actions { display: flex; gap: 10px; }
+.dm-actions .ghost { border: 1px solid var(--line); flex: 0 0 auto; padding: 0 14px; }
+.dm-save { flex: 1; }
