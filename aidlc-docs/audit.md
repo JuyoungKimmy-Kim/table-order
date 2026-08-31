@@ -58,3 +58,59 @@ AI-DLC 워크플로우를 시작해봅시다."
 **Context**: CONSTRUCTION - Integration Contract (Unit 1 Foundation)
 
 ---
+
+## CONSTRUCTION 진입 & Unit 1 진행 방식 결정
+**Timestamp**: 2026-08-31T00:00:00Z
+**User Input**: "내 이름은 김주영이야. 내가 맡은 unit에 대해 개발 진행할거야. Inception Phase가 승인되었습니다. Construction Phase를 시작해주세요."
+**AI Response**: "담당 유닛 = Unit 1 (Foundation & Shared Core, 김주영). CONSTRUCTION Per-Unit Loop 진입. 진행 방식 질문 2건 제시 → 사용자 결정: (1) Functional Design부터 정식 진행(권장) (2) NFR 단계 생략, 기술 스택 기본값 확정(FastAPI + Hypothesis + sqlite3). Functional Design 단계 시작."
+**Context**: CONSTRUCTION - Per-Unit Loop 진입 (Unit 1)
+
+---
+
+## Functional Design - Plan 생성 (Unit 1)
+**Timestamp**: 2026-08-31T00:00:00Z
+**User Input**: "(진행 방식 결정에 따라 자동 진행)"
+**AI Response**: "Unit 1 Functional Design Plan 생성 — construction/plans/unit1-foundation-functional-design-plan.md. 도메인 엔티티/비즈니스 규칙/PBT 대상 순수함수 속성 식별(PBT-01) 계획 및 확인 질문(Q1~Qn) 포함. 사용자 답변/승인 대기."
+**Context**: CONSTRUCTION - Functional Design Part(Plan), Unit 1
+
+---
+
+## Functional Design - 답변 확정 & 산출물 생성 (Unit 1)
+**Timestamp**: 2026-08-31T00:00:00Z
+**User Input**: "전부 기본값으로 진행"
+**AI Response**: "확인 질문 Q1~Q6 전부 기본값(A) 확정 — 모호성 없음(Step 5). 계획서 [Answer] 태그 갱신. Functional Design 산출물 3종 생성: construction/unit1-foundation/functional-design/domain-entities.md(9개 엔티티·enum·관계·소유권), business-rules.md(BR-1~BR-11), business-logic-model.md(코어 모듈 구성·순수함수 계약·상태 흐름·PBT-01 Testable Properties §6·제너레이터/재현성/프레임워크 계획). PBT-01 충족. plan 체크박스 P1~P6 완료, aidlc-state.md 갱신. Functional Design 완료 메시지 제시 후 승인 대기."
+**Context**: CONSTRUCTION - Functional Design (Generation), Unit 1
+
+---
+
+## Functional Design 승인 & Code Generation Planning 진입 (Unit 1)
+**Timestamp**: 2026-08-31T00:00:00Z
+**User Input**: "계속 진행. 이 유닛의 계약과 코어 먼저 확정하자"
+**AI Response**: "Unit 1 Functional Design 승인 기록. NFR 단계 생략(결정). Code Generation Part 1(Planning) 진입 — construction/plans/unit1-foundation-code-generation-plan.md 생성. 코어 계약·스키마·순수함수·PBT 코드 생성 단계를 번호별로 정의. 사용자 승인 시 Part 2 Generation 실행."
+**Context**: CONSTRUCTION - Functional Design 승인 → Code Generation Part 1, Unit 1
+
+---
+
+## Code Generation Plan 생성 & 승인 요청 (Unit 1)
+**Timestamp**: 2026-08-31T00:00:00Z
+**User Input**: "(코드 범위 질문 답변) 코어 + 스캐폴딩 + 시드 데이터 (권장)"
+**AI Response**: "Unit 1 Code Generation Plan 생성 — construction/plans/unit1-foundation-code-generation-plan.md. 범위: 코어(core/ 9모듈) + 모노레포 스캐폴딩 + 마이그레이션/시드 + PBT/예제 테스트 + FastAPI 부트스트랩 + shared/ 계약 사본. 13개 단계 번호화, PBT 강제규칙(PBT-02/03/07/08/09) 단계별 매핑, 스토리 추적성 명시. 사용자 승인 시 Part 2 Generation(Step 1부터) 실행. GATE: 승인 전 코드 생성 안 함."
+**Context**: CONSTRUCTION - Code Generation Part 1 (Planning) 승인 요청, Unit 1
+
+---
+
+## Code Generation Plan 승인 & Part 2 Generation 실행 (Unit 1)
+**Timestamp**: 2026-08-31T00:00:00Z
+**User Input**: "각자 병렬처리 진행하기 이전까지 쭉 진행"
+**AI Response**: "Unit 1 Code Generation Plan 승인 기록. Part 2 Generation Step 1~13 순서 실행 시작 — 스캐폴딩·마이그레이션·코어 모듈·순수함수·PBT/예제 테스트·SSE·FastAPI 부트스트랩·시드·문서. 목표: 계약+코어 확정하여 Unit 2~5 병렬 착수 가능 상태 도달. 각 단계 완료 즉시 plan 체크박스 [x]."
+**Context**: CONSTRUCTION - Code Generation Part 2 (Generation) 실행, Unit 1
+
+---
+
+## Code Generation Part 2 완료 (Unit 1)
+**Timestamp**: 2026-08-31T00:00:00Z
+**User Input**: "(승인에 따라 Step 1~13 자동 실행)"
+**AI Response**: "Unit 1 Code Generation Step 1~13 전부 실행 완료. 생성: backend/app/core(config/db/domain/models/errors/validation/pagination/security/sse) + main.py, migrations(0001_initial_schema.sql, seed.py), tests(generators/test_domain_pbt/test_dto_roundtrip_pbt/test_domain_examples/conftest), requirements.txt/pytest.ini/README, shared/integration-contract.md 사본, frontend 스캐폴딩, 루트 README, .gitignore(hypothesis 캐시). 계획 대비 조정: seed.sql→seed.py(bcrypt 해시 런타임 생성). 검증: pytest 24 passed(default & HYPOTHESIS_PROFILE=ci), seed 정상(store1/admin1/tables3/cat3/menu5), GET /health 200. PBT 준수: PBT-02/03/07/08/09/10 compliant, PBT-04/05/06 N/A. code-summary.md 생성. plan 체크박스 전부 [x], aidlc-state 갱신. 완료 메시지 제시 후 승인 대기 → 승인 시 다른 4개 유닛 병렬 착수 가능."
+**Context**: CONSTRUCTION - Code Generation Part 2 (Generation) 완료, Unit 1
+
+---

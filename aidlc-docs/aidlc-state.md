@@ -42,9 +42,14 @@
 - [~] INCEPTION - Workflow Planning (Units Generation 우선 진행)
 - [~] INCEPTION - Application Design (Units Generation 우선 진행)
 - [~] INCEPTION - Units Generation (Part 1 Planning 완료, Part 2 Generation 산출물 생성 완료 — 사용자 승인 대기)
-- [ ] CONSTRUCTION - Per-Unit Loop
+- [~] CONSTRUCTION - Per-Unit Loop (Unit 1 진행 중)
+  - [x] Unit 1: Functional Design (승인 완료)
+  - [x] Unit 1: NFR Requirements/Design (SKIP — 기술 스택 기본값 확정: FastAPI + Hypothesis + sqlite3)
+  - [~] Unit 1: Code Generation (Part 2 Generation 완료 — 승인 대기; 24 tests pass)
 - [ ] CONSTRUCTION - Build and Test
 
 ## Current Status
-- **Current Stage**: INCEPTION - Units Generation (Part 2: Generation — 승인 대기)
-- **Note**: 사용자가 5명 개발자(김주영, 박찬준, 임동규, 이명우, 윤태경) 병렬 개발을 위해 5개 유닛 분할을 명시적으로 요청. User Stories / Workflow Planning / Application Design 은 요구사항 문서가 충분히 상세하여 유닛 도출에 필요한 범위 내에서 압축 수행. Part 1 질문(Q1~Q5) 답변 완료·모호성 없음 → Part 2 생성 완료: unit-of-work.md / unit-of-work-dependency.md / unit-of-work-story-map.md 생성됨. 완료 메시지 제시 후 사용자 승인 시 CONSTRUCTION 진입.
+- **Current Stage**: CONSTRUCTION - Per-Unit Loop / Unit 1 (Foundation & Shared Core, 김주영) - Code Generation Part 2 완료 (승인 대기)
+- **Unit 1 결과물**: backend/(app/core 9모듈, migrations 2, tests 5), shared/integration-contract.md, frontend 스캐폴딩, 루트/backend README. pytest 24 passed(default+ci), seed 정상, /health 200. → Unit 2~5 병렬 착수 가능 상태 도달.
+- **Active Developer**: 김주영 → Unit 1 (Foundation & Shared Core)
+- **Note**: Q1~Q6 전부 기본값(A) 확정 — 주문번호 A-YYYYMMDD-NNNN(매장+UTC 날짜별 리셋), active 세션 부분유니크 인덱스, 총액 실시간 계산, 메뉴 물리삭제, sqlite3 경량 Repository. Functional Design 산출물 3종 생성: construction/unit1-foundation/functional-design/{domain-entities,business-rules,business-logic-model}.md. PBT-01 충족(Testable Properties §6). 완료 메시지 제시 후 승인 시 Code Generation 진입(NFR 생략).

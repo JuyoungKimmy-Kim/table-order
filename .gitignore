@@ -76,3 +76,6 @@ pnpm-debug.log*
 # ===== OS =====
 .DS_Store
 Thumbs.db
+
+# PBT (Hypothesis) 캐시
+.hypothesis/
