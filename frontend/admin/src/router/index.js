@@ -2,11 +2,14 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
 import LoginView from '../views/LoginView.vue'
 import DashboardView from '../views/DashboardView.vue'
+// Unit 4: 테이블/세션 라우트를 배열로 흡수(공유 라우터가 단일 소유). routes.ts §2.3
+import { tableRoutes } from '../features/tables/routes'
 
 const routes = [
   { path: '/login', name: 'login', component: LoginView, meta: { public: true } },
   { path: '/', name: 'dashboard', component: DashboardView },
-  // Unit 4/5 는 아래에 라우트를 추가한다(예: /tables, /menus).
+  ...tableRoutes,
+  // Unit 5 는 위 패턴대로 라우트 배열을 여기에 spread 한다(예: ...menuRoutes).
 ]
 
 const router = createRouter({
