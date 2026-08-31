@@ -6,6 +6,7 @@
 """
 from __future__ import annotations
 
+import os
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
@@ -22,6 +23,13 @@ async def lifespan(app: FastAPI):
         db.apply_migrations(conn)
     finally:
         conn.close()
+
+    # 개발 편의: DEV_MENU_RESET=1 이면 시작 시 STORE001 메뉴/카테고리를 mock 으로 재설정.
+    # 기본은 꺼짐(프로덕션 안전). dev/start.sh 가 이 변수를 세팅해 준다.
+    if os.environ.get("DEV_MENU_RESET") == "1":
+        from dev.dev_reset import reset_dev_menu
+        reset_dev_menu()
+
     yield
 
 

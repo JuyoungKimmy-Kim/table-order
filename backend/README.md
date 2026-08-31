@@ -26,6 +26,28 @@ python -m migrations.seed
 # 카테고리 3, 메뉴 5개. 멱등(이미 있으면 건너뜀).
 ```
 
+## 개발용 메뉴 초기화 (mock 기준)
+`frontend/customer/src/mock/restaurant-menu.js`(13개 카테고리·95개 메뉴)를
+기준으로 STORE001 의 메뉴/카테고리를 재설정한다. 다른 데이터(매장/관리자/테이블/
+세션/주문/방명록)는 건드리지 않는다.
+
+```bash
+# 시작 시 항상 초기화하며 개발 서버 실행 (기존 8000 포트 정리 → SQL 재생성 → uvicorn)
+./dev/start.sh
+
+# 수동 초기화만 (서버 없이)
+export PYTHONPATH=.
+python -m dev.dev_reset
+
+# mock 변경 후 SQL 재생성만
+node dev/gen_dev_menu_sql.mjs
+```
+
+- `dev/dev_menu_reset.sql` 은 **migrations 밖(dev/)** 에 있어 `apply_migrations()`
+  가 잡지 않는다 → 일반 서버 시작에서는 절대 자동 실행되지 않는다(프로덕션 안전).
+- 초기화는 `DEV_MENU_RESET=1` 일 때만 앱 시작 시 실행된다(`start.sh` 가 설정).
+- 자동 생성 파일(`dev_menu_reset.sql`)은 직접 수정하지 말고 생성기로 다시 만든다.
+
 ## 테스트
 ```bash
 export PYTHONPATH=.
