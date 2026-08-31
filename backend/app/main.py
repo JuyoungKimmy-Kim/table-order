@@ -44,5 +44,6 @@ app.include_router(admin_router, prefix="/api")
 # Unit 4: Table & Session Management (이명우)
 from app.tables.router import router as tables_router
 app.include_router(tables_router, prefix="/api")
-# from app.menu.router import router as menu_router
-# app.include_router(menu_router, prefix="/api")
+# Unit 5: Menu Management (윤태경)
+from app.menu.router import router as menu_router
+app.include_router(menu_router, prefix="/api")
