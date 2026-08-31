@@ -114,3 +114,11 @@ AI-DLC 워크플로우를 시작해봅시다."
 **Context**: CONSTRUCTION - Code Generation Part 2 (Generation) 완료, Unit 1
 
 ---
+
+## CONSTRUCTION - Unit 4 프론트엔드 테스트 범위 결정
+**Timestamp**: 2026-08-31T00:00:00Z
+**User Input**: "A 로 하자"
+**AI Response**: "프론트엔드 자동화 테스트는 옵션 A(보류)로 결정. 병렬 개발 단계에서 공유 admin 골격(scaffold/router/vitest)이 부재해 Unit 4 프론트 모듈은 독립 빌드/테스트 불가하도록 의도 설계됨. 프론트 테스트 하네스는 공유 골격 확립 후 통합 시점에 추가하기로 하고, frontend-integration-spec.md Retrofit 체크리스트에 항목 추가. 백엔드는 pytest로 검증 완료(Unit4 15건: API 12 + PBT 3, 전체 39건 passed). push/PR은 사용자 확인 후 진행."
+**Context**: CONSTRUCTION - Unit 4 테스트 범위 결정 (프론트 테스트 보류)
+
+---
