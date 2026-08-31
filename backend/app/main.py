@@ -35,11 +35,15 @@ async def health() -> dict[str, str]:
 
 
 # --- 유닛 라우터 등록 (각 유닛이 아래에 추가) ---
-# from app.customer.router import router as customer_router
-# app.include_router(customer_router, prefix="/api")
-# from app.admin_auth.router import router as admin_router
-# app.include_router(admin_router, prefix="/api")
-# from app.tables.router import router as tables_router
-# app.include_router(tables_router, prefix="/api")
-from app.menu.router import router as menu_router  # Unit 5 (윤태경)
+# Unit 2: Customer Ordering (박찬준)
+from app.customer.router import router as customer_router
+app.include_router(customer_router, prefix="/api")
+# Unit 3: Admin Auth & Real-time Monitoring (임동규)
+from app.admin_auth.router import router as admin_router
+app.include_router(admin_router, prefix="/api")
+# Unit 4: Table & Session Management (이명우)
+from app.tables.router import router as tables_router
+app.include_router(tables_router, prefix="/api")
+# Unit 5: Menu Management (윤태경)
+from app.menu.router import router as menu_router
 app.include_router(menu_router, prefix="/api")
