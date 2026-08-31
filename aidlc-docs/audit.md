@@ -50,3 +50,11 @@ AI-DLC 워크플로우를 시작해봅시다."
 **Context**: INCEPTION - Units Generation Part 2 (Generation)
 
 ---
+
+## Inception 승인 & Integration Contract 요청
+**Timestamp**: 2026-08-31T00:00:00Z
+**User Input**: "Inception Phase가 승인되었습니다. Construction Phase를 시작해주세요." / (커밋·푸시 후) "유닛 간 통합을 위한 Integration Contract 문서를 만들어줘. 각 유닛의 API 인터페이스 (endpoint, request/response 스펙), 공유 데이터 모델, 이벤트 규약을 정의해줘. 모든 팀원이 이 규약을 기준으로 개발할 거야."
+**AI Response**: "Inception 승인 기록. Units Generation 산출물 커밋(5b3cd0e) 및 origin/main 푸시 완료. Unit 1(Foundation)이 Phase 0에서 확정해야 할 Integration Contract 문서 작성 — inception/application-design/integration-contract.md: 공유 데이터 모델(SQLite 스키마), REST API 계약(유닛별 endpoint/req/resp), SSE 이벤트 규약, 공통 규칙(에러 포맷/세션 판별/총액 계산). PBT 강제 항목(PBT-02/03/07/08/09) 관련 순수 함수 계약 명시."
+**Context**: CONSTRUCTION - Integration Contract (Unit 1 Foundation)
+
+---
