@@ -92,7 +92,7 @@
   <header>
     <h1>테이블오더 서비스 — 시스템 아키텍처</h1>
     <div class="sub">Python · FastAPI · SQLite · Vue · SSE · 모노레포 · 5-유닛 병렬 개발</div>
-    <div class="meta">기준: Unit 1(Foundation) 코어/계약 확정 (commit 340bf5e) · 소유: Unit 1 (김주영)</div>
+    <div class="meta">기준: Unit 1 코어/계약 확정(340bf5e) → Unit 3 Admin 구현(60ae5e6) · 소유: Unit 1 (김주영)</div>
   </header>
 
   <!-- 1. 유닛 개요 -->
@@ -111,7 +111,7 @@
         <div class="owner">박찬준 · 풀스택</div>
         <ul><li>자동 로그인 · 메뉴 탐색</li><li>장바구니 · 주문 생성</li><li>주문 내역 (3.1.1~3.1.5)</li></ul>
       </div>
-      <div class="unit" style="--uc: var(--u3)">
+      <div class="unit done" style="--uc: var(--u3)">
         <span class="tag">Unit 3</span>
         <div class="name">Admin Auth &amp; Monitoring</div>
         <div class="owner">임동규 · 풀스택</div>
@@ -140,7 +140,7 @@
 flowchart TB
   subgraph FE["Frontend (Vue)"]
     CUST["고객용 앱 (Unit 2)"]
-    ADMIN["관리자 앱 (Unit 3/4/5)"]
+    ADMIN["관리자 앱 셸: Unit 3 소유<br/>(U4·U5 라우트 얹음)"]
   end
   subgraph BE["Backend (FastAPI)"]
     R2["customer 라우터 (U2)"]
@@ -219,11 +219,15 @@ flowchart LR
         <thead><tr><th>이벤트</th><th>발행</th><th>구독</th><th>페이로드</th></tr></thead>
         <tbody>
           <tr><td class="evt">order.created</td><td>Unit 2</td><td>Unit 3</td><td>OrderSummary</td></tr>
-          <tr><td class="evt">order.status_changed</td><td>Unit 3</td><td>Unit 3</td><td><code>{order_id, table_id, status}</code></td></tr>
+          <tr><td class="evt">order.status_changed</td><td>Unit 3 <sup>*</sup></td><td>Unit 3</td><td><code>{order_id, table_id, status}</code></td></tr>
           <tr><td class="evt">order.deleted</td><td>Unit 4</td><td>Unit 3</td><td><code>{order_id, table_id, table_total}</code></td></tr>
           <tr><td class="evt">session.closed</td><td>Unit 4</td><td>Unit 3</td><td><code>{table_id, session_id}</code></td></tr>
         </tbody>
       </table>
+      <p style="font-size:12px;color:var(--ink-muted);margin:12px 0 0">
+        <sup>*</sup> <code>order.status_changed</code>는 U3가 발행하고 U3가 구독한다. 상태 변경을 일으킨
+        관리자 화면도 <b>다른 관리자 세션·다중 탭과 동일하게</b> 브로커를 통해 갱신되어, UI 반영 경로를 단일화한다.
+      </p>
     </div>
   </section>
 
@@ -237,14 +241,15 @@ flowchart LR
           <th class="c">U2 고객</th><th class="c">U3 관리자</th><th class="c">U4 세션</th><th class="c">U5 메뉴</th>
         </tr></thead>
         <tbody>
-          <tr><td><code>domain</code> 순수함수</td><td class="c">✔</td><td class="c">—</td><td class="c">✔</td><td class="c">—</td></tr>
+          <tr><td><code>config</code> 상수/설정</td><td class="c">✔</td><td class="c">✔</td><td class="c">✔</td><td class="c">✔</td></tr>
+          <tr><td><code>domain</code> 순수함수</td><td class="c">✔</td><td class="c">✔</td><td class="c">✔</td><td class="c">—</td></tr>
           <tr><td><code>models</code> 엔티티/DTO</td><td class="c">✔</td><td class="c">✔</td><td class="c">✔</td><td class="c">✔</td></tr>
           <tr><td><code>db</code> 연결/트랜잭션</td><td class="c">✔</td><td class="c">✔</td><td class="c">✔</td><td class="c">✔</td></tr>
           <tr><td><code>errors</code> 표준 에러</td><td class="c">✔</td><td class="c">✔</td><td class="c">✔</td><td class="c">✔</td></tr>
           <tr><td><code>validation</code></td><td class="c">✔</td><td class="c">✔</td><td class="c">—</td><td class="c">✔</td></tr>
           <tr><td><code>pagination</code></td><td class="c">✔</td><td class="c">—</td><td class="c">✔</td><td class="c">✔</td></tr>
           <tr><td><code>security</code> bcrypt/JWT</td><td class="c">✔</td><td class="c">✔</td><td class="c">✔</td><td class="c">—</td></tr>
-          <tr><td><code>sse</code> publish/subscribe</td><td class="c">publish</td><td class="c">subscribe</td><td class="c">publish</td><td class="c">—</td></tr>
+          <tr><td><code>sse</code> publish/subscribe</td><td class="c">publish</td><td class="c">pub+sub</td><td class="c">publish</td><td class="c">—</td></tr>
         </tbody>
       </table>
     </div>
@@ -259,8 +264,8 @@ flowchart LR
   P0["Phase 0<br/>Unit 1 코어/계약 확정 ✔"] --> P1
   subgraph P1["Phase 1 · 병렬 개발"]
     A["Unit 2 (박찬준)"]
-    C["Unit 3 (임동규)"]
-    D["Unit 4 (이명우)"]
+    C["Unit 3 (임동규) ✔"]
+    D["Unit 4 (이명우) · 진행중"]
     E["Unit 5 (윤태경)"]
   end
   P1 --> INT["통합<br/>Build &amp; Test"]
