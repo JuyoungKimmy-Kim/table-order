@@ -19,15 +19,32 @@
 - **Documentation**: aidlc-docs/ only
 - **Structure patterns**: See code-generation.md Critical Rules
 
+## Technology Stack (Requirements Analysis 확정)
+- **Backend**: Python
+- **Frontend**: Vue (고객용 + 관리자용)
+- **Database**: SQLite (로컬/임베디드)
+- **Deployment**: 로컬 개발 환경 (워크숍/데모)
+- **Code Organization**: 모노레포 (백엔드 + 프론트엔드 분리 디렉토리)
+- **Scale**: 소규모 (단일 매장, 수십 개 테이블)
+- **Real-time**: Server-Sent Events (SSE)
+
 ## Extension Configuration
-[Requirements Analysis 단계의 opt-in 응답 후 채워짐]
+| Extension | Enabled | Decided At |
+|---|---|---|
+| Security Baseline | No | Requirements Analysis |
+| Resiliency Baseline | No | Requirements Analysis |
+| Property-Based Testing | Partial — 강제 규칙: PBT-02, PBT-03, PBT-07, PBT-08, PBT-09 (그 외 advisory) | Requirements Analysis |
 
 ## Stage Progress
 - [x] INCEPTION - Workspace Detection (COMPLETED - Greenfield 판별)
-- [ ] INCEPTION - Requirements Analysis (IN PROGRESS)
-- [ ] INCEPTION - User Stories
-- [ ] INCEPTION - Workflow Planning
-- [ ] INCEPTION - Application Design
-- [ ] INCEPTION - Units Generation
+- [x] INCEPTION - Requirements Analysis (COMPLETED - 10개 질문 답변 완료, 스택/확장 확정)
+- [~] INCEPTION - User Stories (사용자 요청으로 Units Generation 우선 진행)
+- [~] INCEPTION - Workflow Planning (Units Generation 우선 진행)
+- [~] INCEPTION - Application Design (Units Generation 우선 진행)
+- [ ] INCEPTION - Units Generation (IN PROGRESS - Part 1 Planning)
 - [ ] CONSTRUCTION - Per-Unit Loop
 - [ ] CONSTRUCTION - Build and Test
+
+## Current Status
+- **Current Stage**: INCEPTION - Units Generation (Part 1: Planning)
+- **Note**: 사용자가 5명 개발자(김주영, 박찬준, 임동규, 이명우, 윤태경) 병렬 개발을 위해 5개 유닛 분할을 명시적으로 요청. User Stories / Workflow Planning / Application Design 은 요구사항 문서가 충분히 상세하여 유닛 도출에 필요한 범위 내에서 압축 수행.
