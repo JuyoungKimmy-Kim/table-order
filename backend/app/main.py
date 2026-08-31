@@ -39,7 +39,8 @@ async def health() -> dict[str, str]:
 # app.include_router(customer_router, prefix="/api")
 # from app.admin_auth.router import router as admin_router
 # app.include_router(admin_router, prefix="/api")
-# from app.tables.router import router as tables_router
-# app.include_router(tables_router, prefix="/api")
+# Unit 4 (Table & Session Management, 이명우) 등록
+from app.tables.router import router as tables_router
+app.include_router(tables_router, prefix="/api")
 # from app.menu.router import router as menu_router
 # app.include_router(menu_router, prefix="/api")
