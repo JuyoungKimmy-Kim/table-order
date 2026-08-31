@@ -12,8 +12,12 @@ function won(n) {
     <div class="thumb">
       <img v-if="menu.image_url" :src="menu.image_url" :alt="menu.name" />
       <span v-else class="placeholder">🍽️</span>
+      <span class="card-add" aria-hidden="true">＋</span>
     </div>
-    <div class="name">{{ menu.name }}</div>
-    <div class="price">{{ won(menu.price) }}</div>
+    <div class="body">
+      <div class="name">{{ menu.name }}</div>
+      <p v-if="menu.description" class="desc">{{ menu.description }}</p>
+      <div class="price">{{ won(menu.price) }}</div>
+    </div>
   </button>
 </template>

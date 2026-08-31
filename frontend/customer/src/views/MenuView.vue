@@ -34,21 +34,22 @@ function addToCart(m, qty) {
 
 <template>
   <div class="page menu-view" data-testid="menu-view">
-    <header class="topbar">
-      <span class="title">{{ session.storeName }} · {{ session.tableNumber }}번</span>
-      <button class="ghost" @click="router.push({ name: 'orders' })" data-testid="nav-orders">주문내역</button>
-    </header>
-
-    <p v-if="menu.loading" class="hint" data-testid="menu-loading">메뉴 불러오는 중…</p>
-    <p v-else-if="menu.error" class="error">{{ menu.error }}</p>
-    <template v-else>
+    <div class="menu-header">
+      <header class="topbar">
+        <span class="title">{{ session.storeName }} · {{ session.tableNumber }}번</span>
+        <button class="ghost" @click="router.push({ name: 'orders' })" data-testid="nav-orders">주문내역</button>
+      </header>
       <CategoryTabs
+        v-if="!menu.loading && !menu.error"
         :categories="menu.categories"
         :active-id="menu.activeCategoryId"
         @select="menu.setActiveCategory"
       />
-      <MenuGrid :menus="activeMenus" @open="openDetail" />
-    </template>
+    </div>
+
+    <p v-if="menu.loading" class="hint" data-testid="menu-loading">메뉴 불러오는 중…</p>
+    <p v-else-if="menu.error" class="error">{{ menu.error }}</p>
+    <MenuGrid v-else :menus="activeMenus" @open="openDetail" />
 
     <MenuDetailModal v-if="selected" :menu="selected" @add="addToCart" @close="selected = null" />
     <CartFab :count="cart.itemCount" :total="cart.totalAmount" @click="router.push({ name: 'cart' })" />
