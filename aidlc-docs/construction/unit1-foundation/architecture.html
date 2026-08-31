@@ -91,8 +91,8 @@
 <div class="wrap">
   <header>
     <h1>테이블오더 서비스 — 시스템 아키텍처</h1>
-    <div class="sub">Python · FastAPI · SQLite · Vue · SSE · 모노레포 · 5-유닛 병렬 개발</div>
-    <div class="meta">기준: Unit 1 코어/계약 확정(340bf5e) → Unit 3 Admin 구현(60ae5e6) · 소유: Unit 1 (김주영)</div>
+    <div class="sub">Python · FastAPI · SQLite · Vue · SSE · 모노레포 · 5-유닛 병렬 개발 완료</div>
+    <div class="meta">기준: Unit 1~5 전 유닛 구현·통합 완료(dd3db75) · 소유: Unit 1 (김주영)</div>
   </header>
 
   <!-- 1. 유닛 개요 -->
@@ -105,7 +105,7 @@
         <div class="owner">김주영 · 기반</div>
         <ul><li>스키마 · 도메인 모델</li><li>순수함수 · 공통 유틸</li><li>API 계약 · SSE 브로커</li></ul>
       </div>
-      <div class="unit" style="--uc: var(--u2)">
+      <div class="unit done" style="--uc: var(--u2)">
         <span class="tag">Unit 2</span>
         <div class="name">Customer Ordering</div>
         <div class="owner">박찬준 · 풀스택</div>
@@ -117,13 +117,13 @@
         <div class="owner">임동규 · 풀스택</div>
         <ul><li>JWT 인증 (16h, bcrypt)</li><li>실시간 SSE 모니터링</li><li>주문 상태 변경 (3.2.1~2)</li></ul>
       </div>
-      <div class="unit" style="--uc: var(--u4)">
+      <div class="unit done" style="--uc: var(--u4)">
         <span class="tag">Unit 4</span>
         <div class="name">Table &amp; Session Mgmt</div>
         <div class="owner">이명우 · 풀스택</div>
         <ul><li>테이블 초기 설정</li><li>세션 라이프사이클</li><li>직권 삭제 · 이력 (3.2.3)</li></ul>
       </div>
-      <div class="unit" style="--uc: var(--u5)">
+      <div class="unit done" style="--uc: var(--u5)">
         <span class="tag">Unit 5</span>
         <div class="name">Menu Management</div>
         <div class="owner">윤태경 · 풀스택</div>
@@ -262,13 +262,13 @@ flowchart LR
       <div class="mermaid">
 flowchart LR
   P0["Phase 0<br/>Unit 1 코어/계약 확정 ✔"] --> P1
-  subgraph P1["Phase 1 · 병렬 개발"]
-    A["Unit 2 (박찬준)"]
+  subgraph P1["Phase 1 · 병렬 개발 ✔"]
+    A["Unit 2 (박찬준) ✔"]
     C["Unit 3 (임동규) ✔"]
-    D["Unit 4 (이명우) · 진행중"]
-    E["Unit 5 (윤태경)"]
+    D["Unit 4 (이명우) ✔"]
+    E["Unit 5 (윤태경) ✔"]
   end
-  P1 --> INT["통합<br/>Build &amp; Test"]
+  P1 --> INT["통합 완료 ✔<br/>Build &amp; Test"]
       </div>
     </div>
   </section>
